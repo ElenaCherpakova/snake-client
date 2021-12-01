@@ -16,6 +16,14 @@ const handleUserInput = (data) => {
   if (data === 'd') {
     connection.write('Move: right');
   }
+  
+  let  array = ['hello', 'SOS', 'Danger']
+  for (let item of array){
+    if (data === 'r') {
+      connection.write(`Say: ${item}\n`); 
+      item ++;
+    }
+  }
 };
 
 const setupInput = function(conn) {
