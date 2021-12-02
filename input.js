@@ -1,40 +1,36 @@
 let connection;
-
-const handleUserInput = (data) => {
-  if (data === '\u0003') {
+const {sayingObj, moveObj} = require('./constants');
+ 
+//eventhandler manages the event that happens in this case its key binding 'w''a's''d' and ASCII for Ctrl+C
+const handleUserInput =  (data) => {
+  if (data === '\u0003') {  //'\u0003' = CTRL+C
+    console.log("Exiting game...");
     process.exit();
   }
-  if (data === 'w') {
-    connection.write('Move: up');
+ 
+  let keysArr = Object.keys(moveObj); // code has refactored by Valentin Lyash
+  if (keysArr.includes(data)) {
+    connection.write(`Move: ${moveObj[data]}\n`);
+    console.log(`${moveObj[data]} was pressed.`); 
+  let sayingArr = Object.keys(sayingObj);
+  if (sayingArr.includes(data)) {
+    connection.write(`Say: ${sayingObj[data]}\n`);
   }
-  if (data === 'a') {
-    connection.write('Move: left'); 
-  }
-  if (data === 's') {
-    connection.write('Move: down');
-  }
-  if (data === 'd') {
-    connection.write('Move: right');
-  }
-  
-  let  array = ['hello', 'SOS', 'Danger']
-  for (let item of array){
-    if (data === 'r') {
-      connection.write(`Say: ${item}\n`); 
-      item ++;
-    }
-  }
+ 
+     
 };
-
+ 
 const setupInput = function(conn) {
   connection = conn;
+  // setup interface to handle user input from stdin
   const stdin = process.stdin;
   stdin.setRawMode(true);
   stdin.setEncoding("utf8");
   stdin.resume();
-
-  stdin.on("data", handleUserInput);
+     
+  //eventlistener awaits for the event to fire
+  stdin.on("data", handleUserInput); //.on is the eventListener, data is the specific event listening for and handleUserInput is the invocation of the eventHandler, which ONLY gets invoked when event fires.
   return stdin;
 };
-
-module.exports = { setupInput };
+ 
+module.exports = {setupInput};
