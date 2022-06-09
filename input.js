@@ -8,7 +8,7 @@ const handleUserInput =  (data) => {
     process.exit();
   }
  
-  let keysArr = Object.keys(moveObj); // code has refactored by Valentin Lyash
+  let keysArr = Object.keys(moveObj); 
   if (keysArr.includes(data)) {
     connection.write(`Move: ${moveObj[data]}\n`);
     console.log(`${moveObj[data]} was pressed.`); 
